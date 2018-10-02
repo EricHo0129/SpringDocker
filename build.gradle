@@ -26,6 +26,10 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+ext {
+	env = "$System.env.envType"
+}
+
 bootJar {
     baseName = 'spootdocker'
     version =  '0.1.0'
@@ -37,7 +41,7 @@ docker {
     name "${project.group}/${bootJar.baseName}"
     tags 'latest'
     files bootJar.archivePath
-    buildArgs(['JAR_FILE': "${bootJar.archiveName}"])
+    buildArgs(["JAR_FILE": "${bootJar.archiveName}", "BUILD_ENV":"${env}"])
 }
 
 repositories {
@@ -49,4 +53,9 @@ dependencies {
 	compile 'org.springframework.boot:spring-boot-starter-web'
 	
 	testCompile 'org.springframework.boot:spring-boot-starter-test'
+}
+
+task projectInfo {
+  println "env: "+env;
+  println "JAR_FILE: "+bootJar.archiveName
 }

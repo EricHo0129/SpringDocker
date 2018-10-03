@@ -27,7 +27,8 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 ext {
-	env = "$System.env.envType"
+	//環境變數,實務上是從CI根據Git的Branch打進去
+	stage = "$System.env.BUILD_STAGE"
 }
 
 bootJar {
@@ -38,10 +39,10 @@ bootJar {
 
 docker {
     dependsOn build
-    name "${project.group}/${bootJar.baseName}"
+    name "${bootJar.baseName}"
     tags 'latest'
     files bootJar.archivePath
-    buildArgs(["JAR_FILE": "${bootJar.archiveName}", "BUILD_ENV":"${env}"])
+    buildArgs(["JAR_FILE": "${bootJar.archiveName}", "BUILD_STAGE":"${stage}"])
 }
 
 repositories {
@@ -55,7 +56,4 @@ dependencies {
 	testCompile 'org.springframework.boot:spring-boot-starter-test'
 }
 
-task projectInfo {
-  println "env: "+env;
-  println "JAR_FILE: "+bootJar.archiveName
-}
+compileJava.dependsOn(clean)

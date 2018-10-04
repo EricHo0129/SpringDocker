@@ -18,6 +18,11 @@ public class Application {
 	@Value("${hello.default.name}")
 	private String defaultName;
 	
+	@GetMapping("/")
+	public String index() {
+		return "It works!";
+	}
+	
 	@GetMapping("/hello/{name}")
 	public String hello(@PathVariable("name") String name) {
 		return "Hello! "+name+", this is docker world.";

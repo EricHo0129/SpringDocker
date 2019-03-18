@@ -32,8 +32,8 @@ ext {
 }
 
 bootJar {
-    baseName = 'spootdocker'
-    version =  '0.1.0'
+    baseName = 'sb-ecs'
+    version =  '0.0.1'
 }
 
 
